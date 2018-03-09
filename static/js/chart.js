@@ -25,7 +25,7 @@ function makeGraphs(error, recordsJson) {
 	var dateDim = ndx.dimension(function(d) { return d[inicioVigencia]; });
     var fornecedorDim = ndx.dimension(function(d) { return d[fornecedor]; });
     var enquadramentoDim = ndx.dimension(function(d) { return d[enquadramento]; });
-    var situacaoDim = ndx.dimension(function(d) { return d[situacaoDim]; });
+    var situacaoDim = ndx.dimension(function(d) { return d[situacao]; });
     var valoresDim = ndx.dimension(function(d) { return d[fornecedor] });
     
 	var allDim = ndx.dimension(function(d) {return d;});
@@ -47,7 +47,6 @@ function makeGraphs(error, recordsJson) {
     var timeChart = dc.barChart("#time-chart");
     var fornecedorChart = dc.rowChart("#fornecedor-row-chart");
     var enquadramentoChart = dc.pieChart("#enquadramento-pie-chart");
-    var situacaoChart = dc.pieChart("#situacao-pie-chart");
             
 	timeChart
 		.width(600)
@@ -79,7 +78,7 @@ function makeGraphs(error, recordsJson) {
         .legend(dc.legend().x(0))
         ;
     
-    situacaoChart
+    var situacaoChart = dc.pieChart("#situacao-pie-chart")
         .width(300)
         .height(100)
         .dimension(situacaoDim)
