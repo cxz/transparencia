@@ -2,14 +2,12 @@
 <html>
 <head>
   <title>Dashboard</title>
-  <link rel="stylesheet" href="static/vendor/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/vendor/css/keen-dashboards.css">
-  <link rel="stylesheet" href="static/vendor/css/dc.min.css">  
-  <link rel="stylesheet" href="static/css/custom.css">
-  
-
-
+  <link rel="stylesheet" href="/static/vendor/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/vendor/css/keen-dashboards.css">
+  <link rel="stylesheet" href="/static/vendor/css/dc.min.css">  
+  <link rel="stylesheet" href="/static/css/custom.css">
 </head>
+    
 <body class="application">
 
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -103,7 +101,8 @@
                 Contratos
               </div>
               <div class="chart-stage">
-                <div id="valores-table"></div>
+                <table id="valores-table">
+                </table>
               </div>
             </div>
           </div>
@@ -119,15 +118,15 @@
   <hr>
   <p class="small text-muted">Fonte: <a href="http://transparencia.petrobras.com.br/licitacoes-contratos">http://transparencia.petrobras.com.br/licitacoes-contratos</a></p>
 
-  <script src="static/vendor/js/jquery.min.js"></script>
-  <script src="static/vendor/js/bootstrap.min.js"></script>
-  <script src="static/vendor/js/underscore-min.js"></script>
-  <script src="static/vendor/js/crossfilter.js"></script>
-  <script src="static/vendor/js/d3.min.js"></script>
-  <script src="static/vendor/js/dc.min.js"></script>
-  <script src="static/vendor/js/queue.js"></script>
-  <script src="static/vendor/js/keen.min.js"></script>
-  <script src='static/js/chart.js' type='text/javascript'></script>
+    <script src="/static/vendor/js/jquery.min.js"></script>
+    <script src="/static/vendor/js/bootstrap.min.js"></script>
+    <script src="/static/vendor/js/underscore-min.js"></script>
+    <script src="/static/vendor/js/crossfilter.js"></script>
+    <script src="/static/vendor/js/d3.js"></script>
+    <script src="/static/vendor/js/dc.js"></script>
+    <script src="/static/vendor/js/queue.js"></script>
+    <script src="/static/vendor/js/keen.min.js"></script>    
+    <script src='/static/js/chart.js' type='text/javascript'></script>
 
 </body>
 </html>

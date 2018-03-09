@@ -1,8 +1,8 @@
 queue()
-    .defer(d3.json, "flask/data")
+    .defer(d3.json, "/static/sample.csv")
     .await(makeGraphs);
 
-function makeGraphs(error, recordsJson) {
+function makeGraphs(error, recordsJson) {    
     var inicioVigencia = "Início da vigência";
     var fornecedor = "Fornecedor";
     var enquadramento = "Enquadramento do Processo";
@@ -26,7 +26,7 @@ function makeGraphs(error, recordsJson) {
     var fornecedorDim = ndx.dimension(function(d) { return d[fornecedor]; });
     var enquadramentoDim = ndx.dimension(function(d) { return d[enquadramento]; });
     var situacaoDim = ndx.dimension(function(d) { return d[situacaoDim]; });
-    var valoresDim = ndx.dimension(function(d) { return [d[fornecedor], d[valorContrato]] });
+    var valoresDim = ndx.dimension(function(d) { return d[fornecedor] });
     
 	var allDim = ndx.dimension(function(d) {return d;});
 
@@ -65,7 +65,6 @@ function makeGraphs(error, recordsJson) {
         .height(500)
         .dimension(fornecedorDim)
         .group(fornecedorGroup)
-        .ordering(function(d) { return -d.value })
         .colors(['#6baed6'])
         .elasticX(true)
         .cap(20)
@@ -94,13 +93,15 @@ function makeGraphs(error, recordsJson) {
         .width(300)
         .height(480)
         .dimension(valoresDim)
-        .group(valoresGroup)
-        //.size(Infinity)
-        //.columns(['A', 'B'])
-        //.sortBy(function(d) { return [ d.value ] })
-        //.order(d3.descending);
+        .group(function(d) { return d.value })
+        .showGroups(false)
+        .columns([
+            { label: fornecedor, format: function(d) { return d[fornecedor]; } },
+            { label: valorContrato, format: function(d) { return d[valorContrato]; } },                 
+            { label: situacao, format: function(d) { return d[situacao]; } },
+         ])
         ;    
-
+        
 	dc.renderAll();
 
 };
