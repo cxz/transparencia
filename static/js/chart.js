@@ -7,7 +7,7 @@ function makeCharts(error, records) {
     var fornecedor = "fornecedor";
     var enquadramento = "processo_enquadramento";
     var situacao = "situacao";
-    var valorContrato = "contrato_valor_txt";
+    var contratoValorTxt = "contrato_valor_txt";
     var contratoAmount = "contrato_amount";
 
     var dateFormat = d3.time.format("%d/%m/%Y");
@@ -16,6 +16,7 @@ function makeCharts(error, records) {
         d[inicioVigencia] = dateFormat.parse(d[inicioVigencia]);
         d[inicioVigencia].setMinutes(0);
         d[inicioVigencia].setSeconds(0);
+        d[contratoAmount] = parseFloat(d[contratoAmount]);
     });    
 
     //Create a Crossfilter instance
@@ -26,7 +27,6 @@ function makeCharts(error, records) {
     var fornecedorDim = ndx.dimension(function(d) { return d[fornecedor]; });
     var enquadramentoDim = ndx.dimension(function(d) { return d[enquadramento]; });
     var situacaoDim = ndx.dimension(function(d) { return d[situacao]; });
-    var valoresTxtDim = ndx.dimension(function(d) { return d[fornecedor] });
     var contratoAmountDim = ndx.dimension(function(d) { return d[contratoAmount] });
 
     var allDim = ndx.dimension(function(d) {return d;});
@@ -136,14 +136,16 @@ function makeCharts(error, records) {
         .dataTable("#valores-table")    
         .width(300)
         .height(480)
-        .dimension(valoresTxtDim)
-        .group(function(d) { return d.value })
+        .dimension(fornecedorDim)
+        .group(function(d) { return ''; })
         .showGroups(false)
         .columns([
             { label: "Fornecedor", format: function(d) { return d[fornecedor]; } },
-            { label: "Valor", format: function(d) { return d[valorContrato]; } },
-            { label: "Situação", format: function(d) { return d[situacao]; } },
+            { label: "Valor", format: function(d) { return d[contratoValorTxt]; } },
+            { label: "Situação", format: function(d) { return d[situacao]; } }
          ])
+        .sortBy(function (d) { return d.contrato_amount; })
+        .order(d3.descending)
         ;    
 
     dc.renderAll();
