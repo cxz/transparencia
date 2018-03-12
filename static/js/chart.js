@@ -1,13 +1,14 @@
 queue()
     .defer(d3.csv, "/static/contratos-sample.csv")
-    .await(makeGraphs);
+    .await(makeCharts);
 
-function makeGraphs(error, records) {
+function makeCharts(error, records) {
     var inicioVigencia = "vigencia_inicio";
     var fornecedor = "fornecedor";
     var enquadramento = "processo_enquadramento";
     var situacao = "situacao";
     var valorContrato = "contrato_valor_txt";
+    var contratoAmount = "contrato_amount";
 
     var dateFormat = d3.time.format("%d/%m/%Y");
 
@@ -25,7 +26,8 @@ function makeGraphs(error, records) {
     var fornecedorDim = ndx.dimension(function(d) { return d[fornecedor]; });
     var enquadramentoDim = ndx.dimension(function(d) { return d[enquadramento]; });
     var situacaoDim = ndx.dimension(function(d) { return d[situacao]; });
-    var valoresDim = ndx.dimension(function(d) { return d[fornecedor] });
+    var valoresTxtDim = ndx.dimension(function(d) { return d[fornecedor] });
+    var contratoAmountDim = ndx.dimension(function(d) { return d[contratoAmount] });
 
     var allDim = ndx.dimension(function(d) {return d;});
 
@@ -34,41 +36,85 @@ function makeGraphs(error, records) {
     var fornecedorGroup = fornecedorDim.group();
     var enquadramentoGroup = enquadramentoDim.group();
     var situacaoGroup = situacaoDim.group();
-    var valoresGroup = valoresDim.group();
 
     var all = ndx.groupAll();
 
     //Define values (to be used in charts)
-    var minDate = dateDim.bottom(1)[0][inicioVigencia];
-    var maxDate = dateDim.top(1)[0][inicioVigencia];
+    //var minDate = dateDim.bottom(1)[0][inicioVigencia];
+    //var maxDate = new Date(2018, 6, 1); //dateDim.top(1)[0][inicioVigencia];
+    var minDate = new Date(2018, 0, 1);
+    var maxDate = new Date(2018, 7, 1);
+    var numberFormat = d3.format('.2f');
 
-    //Charts
-    var timeChart = dc.barChart("#time-chart");
-    var fornecedorChart = dc.rowChart("#fornecedor-row-chart");
-    var enquadramentoChart = dc.pieChart("#enquadramento-pie-chart");
+    var maxAmount = contratoAmountDim.top(1)[0][contratoAmount];
 
-    timeChart
+    var xMonths = ndx.dimension(function (d) {
+        return d[inicioVigencia].getMonth();
+    });
+
+    var amountMonthInMM = xMonths.group().reduceSum(function (d) {
+       return d[contratoAmount]/1e6;
+    });
+
+    var fornecedorContratoAmount = fornecedorDim.group().reduceSum(function (d) {
+        return d[contratoAmount]/1e6;
+    });
+
+    var valorHistChart = dc.barChart("#valor-hist-chart")
         .width(600)
         .height(140)
-        //.margins({top: 10, right: 50, bottom: 20, left: 20})
+        .dimension(xMonths)
+        .group(amountMonthInMM)
+        .renderLabel(true)
+        .label(function (p) {
+            return numberFormat(p.y);
+        })
+        .x(d3.scale.linear().domain([0, 11]))
+        .y(d3.scale.linear())
+            .outerPadding(10)
+        //.yAxisLabel('Valor Bruto em MM')
+        .elasticY(true)
+        .brushOn(false)
+        .xAxisPadding(50)
+        .yAxis().tickFormat(function (v) {
+            return v + '';
+        }).ticks(5)
+        ;
+
+    var valorVigenciaChart = dc.barChart("#valor-vigencia-chart")
+        .width(600)
+        .height(140)
         .dimension(dateDim)
         .group(numRecordsByDate)
         .transitionDuration(500)
         .x(d3.time.scale().domain([minDate, maxDate]))
         .elasticY(true)
-        .yAxis().ticks(4);
+        .yAxis().ticks(4)
+    ;
 
-    fornecedorChart
+
+    var quantitativoVigenciaChart = dc.barChart("#quantitativo-vigencia-chart")
+        .width(600)
+        .height(140)
+        .dimension(dateDim)
+        .group(numRecordsByDate)
+        .transitionDuration(500)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .elasticY(true)
+        .yAxis().ticks(4)
+        ;
+
+    var fornecedorChart = dc.rowChart("#fornecedor-row-chart")
         .width(600)
         .height(500)
         .dimension(fornecedorDim)
-        .group(fornecedorGroup)
-        .colors(['#6baed6'])
+        .group(fornecedorContratoAmount)
+        //.colors(['#6baed6'])
         .elasticX(true)
         .cap(20)
         ;
 
-    enquadramentoChart
+    var enquadramentoChart = dc.pieChart("#enquadramento-pie-chart")
         .width(300)
         .height(100)
         .dimension(enquadramentoDim)
@@ -90,7 +136,7 @@ function makeGraphs(error, records) {
         .dataTable("#valores-table")    
         .width(300)
         .height(480)
-        .dimension(valoresDim)
+        .dimension(valoresTxtDim)
         .group(function(d) { return d.value })
         .showGroups(false)
         .columns([
