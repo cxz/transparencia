@@ -1,132 +1,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="/static/vendor/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/vendor/css/keen-dashboards.css">
-  <link rel="stylesheet" href="/static/vendor/css/dc.min.css">  
-  <link rel="stylesheet" href="/static/css/custom.css">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/vendor/css/keen-dashboards.css">
+    <link rel="stylesheet" href="/static/vendor/css/dc.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+    <meta charset="UTF-8">
 </head>
-    
+
 <body class="application">
 
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="./">Contratos </a>
-      </div>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="./">Contratos </a>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div class="container-fluid">
+<div class="container-fluid">
 
     <div class="row">
 
-      <div class="col-sm-6">
-        <div class="row">
-
-          <!-- Brand -->
-          <div class="col-sm-12">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Fornecedor
-              </div>
-              <div class="chart-stage">
-                <div id="fornecedor-row-chart"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Brand -->
-
-
-          <div class="col-sm-6">
-
-          </div>
-
-
-        </div>
-      </div>
-
-      <div class="col-sm-5">
-          <div class="row">
-          <!-- Time Chart --> 
-          <div class="col-sm-12">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Inicio da Vigência
-              </div>
-              <div class="chart-stage">
-                <div id="time-chart"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Time Chart --> 
-          </div>
-          
-        <div class="row">
-        <!-- Gender -->
         <div class="col-sm-6">
-          <div class="chart-wrapper">
-            <div class="chart-title">
-              Enquadramento do Processo
-            </div>
-            <div class="chart-stage">
-              <div id="enquadramento-pie-chart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- Gender -->
+            <div class="row">
 
-        <!-- Age Segment -->
-        <div class="col-sm-6">
-          <div class="chart-wrapper">
-            <div class="chart-title">
-              Situação
-            </div>
-            <div class="chart-stage">
-              <div id="situacao-pie-chart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- Age Segment -->
-      </div>
+                <!--
+                    Fornecedor
+                -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Fornecedor
+                        </div>
+                        <div class="chart-stage">
+                            <div id="fornecedor-row-chart"></div>
+                        </div>
+                    </div>
+                </div>
 
-          
-
-        <div class="row">
-          <!-- Number of events -->  
-          <div class="col-sm-12"> 
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Contratos
-              </div>
-              <div class="chart-stage">
-                <table id="valores-table">
-                </table>
-              </div>
             </div>
-          </div>
-          <!-- Number of events -->  
         </div>
 
-      </div>
+        <div class="col-sm-5">
+            <div class="row">
+
+
+                <!--
+
+                    Quantitativo de contratos ao longo do tempo
+
+                -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Inicio da Vigência
+                        </div>
+                        <div class="chart-stage">
+                            <div id="time-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!--
+                    Enquadramento do processo
+
+                -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Enquadramento do Processo
+                        </div>
+                        <div class="chart-stage">
+                            <div id="enquadramento-pie-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--
+
+                    Situacao
+
+                -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Situação
+                        </div>
+                        <div class="chart-stage">
+                            <div id="situacao-pie-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+
+                <!--
+
+
+                    Tabela com detalhes dos contratos filtrados.
+
+
+                -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <!--
+                        <div class="chart-title">
+                            Contratos
+                        </div>
+                        -->
+                        <div class="chart-stage">
+                            <table id="valores-table" class="table table-striped table-sm">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
 
-  </div>
+</div>
 
-  <hr>
-  <p class="small text-muted">Fonte: <a href="http://transparencia.petrobras.com.br/licitacoes-contratos">http://transparencia.petrobras.com.br/licitacoes-contratos</a></p>
+<hr>
+<p class="small text-muted">Fonte: <a href="http://transparencia.petrobras.com.br/licitacoes-contratos">http://transparencia.petrobras.com.br/licitacoes-contratos</a>
+</p>
 
-    <script src="/static/vendor/js/jquery.min.js"></script>
-    <script src="/static/vendor/js/bootstrap.min.js"></script>
-    <script src="/static/vendor/js/underscore-min.js"></script>
-    <script src="/static/vendor/js/crossfilter.js"></script>
-    <script src="/static/vendor/js/d3.js"></script>
-    <script src="/static/vendor/js/dc.js"></script>
-    <script src="/static/vendor/js/queue.js"></script>
-    <script src="/static/vendor/js/keen.min.js"></script>    
-    <script src='/static/js/chart.js' type='text/javascript'></script>
+<script src="/static/vendor/js/jquery.min.js"></script>
+<script src="/static/vendor/js/bootstrap.min.js"></script>
+<script src="/static/vendor/js/underscore-min.js"></script>
+<script src="/static/vendor/js/crossfilter.js"></script>
+<script src="/static/vendor/js/d3.js"></script>
+<script src="/static/vendor/js/dc.js"></script>
+<script src="/static/vendor/js/queue.js"></script>
+<script src="/static/vendor/js/keen.min.js"></script>
+<script src='/static/js/chart.js' type='text/javascript'></script>
 
 </body>
 </html>

@@ -1,15 +1,14 @@
 queue()
-    .defer(d3.json, "/static/sample.csv")
+    .defer(d3.csv, "/static/contratos-sample.csv")
     .await(makeGraphs);
 
-function makeGraphs(error, recordsJson) {    
-    var inicioVigencia = "Início da vigência";
-    var fornecedor = "Fornecedor";
-    var enquadramento = "Enquadramento do Processo";
-    var situacao = "Situação";
-    var valorContrato = "Valor do contrato";
+function makeGraphs(error, records) {
+    var inicioVigencia = "vigencia_inicio";
+    var fornecedor = "fornecedor";
+    var enquadramento = "processo_enquadramento";
+    var situacao = "situacao";
+    var valorContrato = "contrato_valor_txt";
 
-    var records = recordsJson;
     var dateFormat = d3.time.format("%d/%m/%Y");
 
     records.forEach(function(d) {
@@ -95,9 +94,9 @@ function makeGraphs(error, recordsJson) {
         .group(function(d) { return d.value })
         .showGroups(false)
         .columns([
-            { label: fornecedor, format: function(d) { return d[fornecedor]; } },
-            { label: valorContrato, format: function(d) { return d[valorContrato]; } },                 
-            { label: situacao, format: function(d) { return d[situacao]; } },
+            { label: "Fornecedor", format: function(d) { return d[fornecedor]; } },
+            { label: "Valor", format: function(d) { return d[valorContrato]; } },
+            { label: "Situação", format: function(d) { return d[situacao]; } },
          ])
         ;    
 
