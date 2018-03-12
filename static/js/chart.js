@@ -106,12 +106,12 @@ function makeCharts(error, records) {
 
     var fornecedorChart = dc.rowChart("#fornecedor-row-chart")
         .width(600)
-        .height(500)
+        .height(300)
         .dimension(fornecedorDim)
         .group(fornecedorContratoAmount)
         //.colors(['#6baed6'])
         .elasticX(true)
-        .cap(20)
+        .cap(10)
         ;
 
     var enquadramentoChart = dc.pieChart("#enquadramento-pie-chart")
@@ -146,7 +146,14 @@ function makeCharts(error, records) {
          ])
         .sortBy(function (d) { return d.contrato_amount; })
         .order(d3.descending)
+        .size(Infinity)
         ;    
+
+    //see http://dc-js.github.io/dc.js/examples/table-pagination.html
+    var firstRow = 0;
+    var pageSize = 10;
+    dataTable.beginSlice(firstRow);
+    dataTable.endSlice(firstRow + pageSize);
 
     dc.renderAll();
 
